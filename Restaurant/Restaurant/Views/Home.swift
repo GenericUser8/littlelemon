@@ -11,7 +11,8 @@ struct Home: View {
     let persistence = PersistenceController.shared
     
     var body: some View {
-        if #unavailable(iOS 18.0) {
+        MenuBar()
+        if #available(iOS 18.0, *) {
             TabView {
                 Tab("Menu", systemImage: "list.dash") {
                     Menu()

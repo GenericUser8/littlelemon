@@ -15,7 +15,6 @@ struct Menu: View {
     
     var body: some View {
         VStack {
-            Text("Little Lemon")
             Text("Chicago")
             Text("This app lets you order deliveries from the Little Lemon restaurant.")
             TextField("Search menu", text: $searchText)
