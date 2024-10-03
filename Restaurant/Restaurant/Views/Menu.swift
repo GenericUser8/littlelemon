@@ -13,6 +13,7 @@ struct Menu: View {
     
     @ObservedObject var dishViewModel = DishViewModel()
     @State var searchText = ""
+    @State var menuCategory: FoodCategory? = nil
     
     var body: some View {
         VStack {
@@ -24,6 +25,7 @@ struct Menu: View {
             //                    DishRow(dish)
             //                }
             //            }
+            MenuCategories(foodCategory: $menuCategory)
             FetchedObjects(predicate: buildPredicate(), sortDescriptors: buildSortDescriptors()) { (dishes: [Dish]) in
                 List {
                     ForEach(dishes) { dish in
@@ -50,12 +52,18 @@ struct Menu: View {
         ]
     }
     
-    func buildPredicate() -> NSPredicate {
-        if searchText.isEmpty {
-            return NSPredicate(value: true)
-        } else {
-            return NSPredicate(format: "title CONTAINS[cd] %@", searchText)
+    func buildPredicate() -> NSCompoundPredicate {
+        var predicates: [NSPredicate] = []
+        
+        if let menuCategory = menuCategory {
+            predicates.append(menuCategory.getPredicate())
         }
+        
+        if !searchText.isEmpty {
+            predicates.append(NSPredicate(format: "title CONTAINS[cd] %@", searchText))
+        }
+        
+        return NSCompoundPredicate(type: .and, subpredicates: predicates)
     }
 }
 

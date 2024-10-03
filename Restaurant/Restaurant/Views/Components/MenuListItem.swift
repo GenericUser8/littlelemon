@@ -20,10 +20,14 @@ struct MenuListItem: View {
                         .padding(5)
                     Spacer()
                 }
-                Text(dish.dishDescription!)
-                    .foregroundStyle(Color("Secondary 4"))
-                    .font(.custom("Karla", size: 16))
-                    .lineLimit(2)
+                HStack {
+                    Text(dish.dishDescription!)
+                        .foregroundStyle(Color("Secondary 4"))
+                        .font(.custom("Karla", size: 16))
+                        .lineLimit(2)
+                        .padding(.leading, 5)
+                    Spacer()
+                }
                 HStack {
                     Text("$\(Float(dish.price!)!, specifier: "%.2f")")
                         .fontWeight(.light)

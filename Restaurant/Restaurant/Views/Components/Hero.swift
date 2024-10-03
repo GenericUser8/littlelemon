@@ -45,7 +45,7 @@ We are a family owned Mediterranean restaurant, focused on traditional recipes s
                 .cornerRadius(25)
                 .offset(CGSize(width: 110, height: -10))
         }
-        .aspectRatio(1.25, contentMode: .fit)
+//        .aspectRatio(1.25, contentMode: .fit)
     }
     
     @ViewBuilder
