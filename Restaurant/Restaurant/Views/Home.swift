@@ -42,4 +42,10 @@ struct Home: View {
 
 #Preview {
     Home()
+    // Provide basic user details for testing
+        .onAppear {
+            UserDefaults.standard.set("John", forKey: kFirstName)
+            UserDefaults.standard.set("Smith", forKey: kLastName)
+            UserDefaults.standard.set("johnsmith@mail.com", forKey: kEmail)
+        }
 }

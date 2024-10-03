@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Hero: View {
     @Binding var searchText: String
+    var onChange: (String) -> () = {_ in }
     
     var body: some View {
         ZStack {
@@ -61,6 +62,7 @@ We are a family owned Mediterranean restaurant, focused on traditional recipes s
                     .padding([.top, .bottom, .leading])
                 TextField("Search", text: $searchText)
                     .padding()
+                    .onChange(of: searchText, perform: onChange)
             }
         }
         .aspectRatio(8, contentMode: .fit)
