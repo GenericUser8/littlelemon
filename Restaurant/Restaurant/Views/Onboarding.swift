@@ -18,6 +18,8 @@ struct Onboarding: View {
     @State var email = ""
     @State var isLoggedIn = false
     
+    @State var searchPlaceholder = ""
+    
     var body: some View {
         if #unavailable(iOS 18.0) {
             NavigationStack { onboardingForm }
@@ -29,14 +31,23 @@ struct Onboarding: View {
     @ViewBuilder
     var onboardingForm: some View {
         VStack {
+            Hero(searchText: $searchPlaceholder, onChange: {_ in }, showSearch: false)
             NavigationLink(destination: Home(), isActive: $isLoggedIn) {
                 EmptyView()
             }
             
-            TextField("First Name", text: $firstName)
-            TextField("Last Name", text: $lastName)
-            TextField("Email", text: $email)
-            Button("Register") {
+            VStack {
+                LLTextField("First Name*", text: $firstName)
+                    .padding(.bottom)
+                LLTextField("Last Name*", text: $lastName)
+                    .padding(.bottom)
+                LLTextField("Email*", text: $email)
+                    .padding(.bottom)
+            }
+            .padding()
+            
+            
+            LLMainButton("Register") {
                 
                 // Check that the fields are not empty
                 if (firstName.isEmpty || lastName.isEmpty ||

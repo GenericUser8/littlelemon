@@ -10,6 +10,7 @@ import SwiftUI
 struct Hero: View {
     @Binding var searchText: String
     var onChange: (String) -> () = {_ in }
+    var showSearch = true
     
     var body: some View {
         ZStack {
@@ -21,21 +22,25 @@ struct Hero: View {
                         .font(.custom("Times New Roman", size: 40))
                         .fontWeight(.semibold)
                         .foregroundStyle(Color("Primary 2"))
-                        .padding()
+                        .padding([.leading, .top, .trailing])
                     Spacer()
                 }
-                Text("""
-We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.
-""")
-                .foregroundStyle(Color("Secondary 3"))
-                .font(.headline)
-                .padding()
-                .padding(.trailing, 160)
+                HStack {
+                    Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
+                    .foregroundStyle(Color("Secondary 3"))
+                    .frame(height: 160)
+                    .font(.headline)
+                    .padding(.leading)
+                    .multilineTextAlignment(.leading)
+                    Spacer(minLength: 160)
+                }
                 
-                searchBar
-                    .offset(CGSize(width: 0, height: 20))
-                    .padding()
-                Spacer()
+                if showSearch {
+                    searchBar
+                        .padding([.leading, .trailing])
+                        .offset(x: 0, y: -10)
+                    Spacer()
+                }
             }
             Image("Hero Image")
                 .resizable()
@@ -44,8 +49,13 @@ We are a family owned Mediterranean restaurant, focused on traditional recipes s
                 .clipped()
                 .cornerRadius(25)
                 .offset(CGSize(width: 110, height: -10))
+            Text("Chicago")
+                .foregroundStyle(Color("Secondary 3"))
+                .font(.custom("Times New Roman", size: 28))
+                .fontWeight(.bold)
+                .offset(CGSize(width: -135, height: (showSearch ? -80 : -50)))
         }
-//        .aspectRatio(1.25, contentMode: .fit)
+        .aspectRatio(2, contentMode: .fit)
     }
     
     @ViewBuilder
