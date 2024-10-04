@@ -20,6 +20,9 @@ struct Onboarding: View {
     
     @State var searchPlaceholder = ""
     
+    @State var isValid = false
+    @State var validationError: String? = "Please enter your personal details."
+    
     var body: some View {
         if #unavailable(iOS 18.0) {
             NavigationStack { onboardingForm }
@@ -30,24 +33,29 @@ struct Onboarding: View {
     
     @ViewBuilder
     var onboardingForm: some View {
-        VStack {
+        ScrollView {
+            MenuBar()
             Hero(searchText: $searchPlaceholder, onChange: {_ in }, showSearch: false)
             NavigationLink(destination: Home(), isActive: $isLoggedIn) {
                 EmptyView()
             }
             
             VStack {
-                LLTextField("First Name*", text: $firstName)
+                LLTextField("First Name*", text: $firstName) { _ in validateInput()}
                     .padding(.bottom)
-                LLTextField("Last Name*", text: $lastName)
+                LLTextField("Last Name*", text: $lastName) { _ in validateInput()}
                     .padding(.bottom)
-                LLTextField("Email*", text: $email)
+                LLTextField("Email*", text: $email) { _ in validateInput()}
                     .padding(.bottom)
             }
             .padding()
             
+            Text(validationError ?? "Data seems valid.")
+                .foregroundStyle(Color("Secondary 4"))
+                .fontWeight(.bold)
+                .font(.system(size: 20))
             
-            LLMainButton("Register") {
+            LLMainButton("Register", isActive: $isValid) {
                 
                 // Check that the fields are not empty
                 if (firstName.isEmpty || lastName.isEmpty ||
@@ -67,6 +75,34 @@ struct Onboarding: View {
                 isLoggedIn = true
             }
         }
+    }
+    init(firstName: String = "", lastName: String = "", email: String = "", isLoggedIn: Bool = false, searchPlaceholder: String = "") {
+        self.firstName = firstName
+        self.lastName = lastName
+        self.email = email
+        self.isLoggedIn = isLoggedIn
+        self.searchPlaceholder = searchPlaceholder
+    }
+    
+    func validateInput() {
+        if firstName == "" {
+            validationError = "Please provide a first name."
+            isValid = false
+            return
+        }
+        if lastName == "" {
+            validationError = "Please provide a last name."
+            isValid = false
+            return
+        }
+        if email == "" {
+            validationError = "Please provide an email."
+            isValid = false
+            return
+        }
+        
+        isValid = true
+        validationError = nil
     }
 }
 
