@@ -29,7 +29,12 @@ struct Menu: View {
             FetchedObjects(predicate: buildPredicate(), sortDescriptors: buildSortDescriptors()) { (dishes: [Dish]) in
                 List {
                     ForEach(dishes) { dish in
-                        MenuListItem(dish: dish)
+                        NavigationLink(destination: {
+                            Text("Menu Selection View")
+                                .font(.largeTitle)
+                        }, label: {
+                            MenuListItem(dish: dish)
+                        })
                     }
                 }
                 .listStyle(.inset)
